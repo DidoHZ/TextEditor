@@ -24,10 +24,15 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                        <CheckMenuItem mnemonicParsing="false" onAction="#WWrap" text="Word Wrap" />
                         <MenuItem mnemonicParsing="false" text="Delete" />
                     </items>
                 </Menu>
+            <Menu mnemonicParsing="false" text="Format">
+              <items>
+                        <CheckMenuItem mnemonicParsing="false" onAction="#WWrap" text="Word Wrap" />
+                <MenuItem mnemonicParsing="false" onAction="#Font" text="Font" />
+              </items>
+            </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#FileBar" text="About" />

@@ -7,14 +7,17 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import org.controlsfx.dialog.FontSelectorDialog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -31,19 +34,19 @@ public class Controller implements Initializable {
     }
     public void FileBar(ActionEvent ae) throws IOException {
         MenuItem mi = (MenuItem) ae.getSource();
-        String fileoption = mi.getText();
-        System.out.println(fileoption);
+        String filetype = mi.getText();
+        System.out.println(filetype);
 
         //reset
-        if(fileoption.equals("New File")){
+        if(filetype.equals("New File")){
             if(edited)
                 UnSavedMessage(false);
             SetNewFile();
             return;
         }
 
-        //Open New file or creat new file
-        if(fileoption.equals("Open")) {
+        //Open New file or create new file
+        if(filetype.equals("Open")) {
             //open new file while file saved
             if((FileName==null && !edited) || (FileName!=null && !edited)) {
                 open();
@@ -59,7 +62,7 @@ public class Controller implements Initializable {
         }
 
         //Save new file or existing file
-        if(fileoption.equals("Save")){
+        if(filetype.equals("Save")){
             //save opened file
             if(FileName!=null) {
                 save();
@@ -70,7 +73,7 @@ public class Controller implements Initializable {
         }
 
         //Exit
-        if(fileoption.equals("Close")){
+        if(filetype.equals("Close")){
             Platform.exit();
         }
     }
@@ -164,5 +167,12 @@ public class Controller implements Initializable {
     public void WWrap(ActionEvent ae) {
         CheckMenuItem wrap = (CheckMenuItem) ae.getSource();
         Text_fld.setWrapText(wrap.isSelected());
+    }
+
+    public void Font(ActionEvent actionEvent) {
+        FontSelectorDialog dialog = new FontSelectorDialog(null);
+        dialog.setTitle("Choose font from list");
+        Optional<Font> selectedfont = dialog.showAndWait();
+        Text_fld.setFont(selectedfont.get());
     }
 }
