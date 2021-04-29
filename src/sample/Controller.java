@@ -24,10 +24,15 @@ import java.util.Scanner;
 public class Controller implements Initializable {
     public TextArea Text_fld;
     public BorderPane BPane;
-    public String FilePath=null, FileName=null;
-    public Boolean edited=false;
     public File file ;
     public FileChooser filec = new FileChooser();
+    private String FilePath=null, FileName=null;
+    private Boolean edited=false;
+
+
+    public Controller() {
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -99,7 +104,7 @@ public class Controller implements Initializable {
     public void saveas() throws IOException {
         Window stage = BPane.getScene().getWindow();
         filec.setTitle("Save File");
-        filec.setInitialFileName("file");
+        filec.setInitialFileName("*");
         filec.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text file","*.txt"));
 
         if((file= filec.showSaveDialog(stage)) != null ) {
@@ -115,7 +120,7 @@ public class Controller implements Initializable {
 
     //Save existing file
     public void save() throws IOException {
-        FileWriter filew = new FileWriter(file.getPath());
+        FileWriter filew = new FileWriter(FilePath);
         filew.write(Text_fld.getText());
         filew.close();
         edited = false;
@@ -142,7 +147,7 @@ public class Controller implements Initializable {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Text Editor");
         if(FilePath!=null)
-            alert.setContentText("Do you want so save changes to\n"+file.getPath()+"?");
+            alert.setContentText("Do you want so save changes to\n"+FilePath+"?");
         else
             alert.setContentText("Do you want so save changes to New File?");
         ButtonType okButton = new ButtonType("Save"),noButton = new ButtonType("Don't Save"),cancelButton = new ButtonType("Cancel");
@@ -169,10 +174,10 @@ public class Controller implements Initializable {
         Text_fld.setWrapText(wrap.isSelected());
     }
 
-    public void Font(ActionEvent actionEvent) {
+    public void Font() {
         FontSelectorDialog dialog = new FontSelectorDialog(null);
         dialog.setTitle("Choose font from list");
         Optional<Font> selectedfont = dialog.showAndWait();
-        Text_fld.setFont(selectedfont.get());
+        selectedfont.ifPresent(font -> Text_fld.setFont(font));
     }
 }
