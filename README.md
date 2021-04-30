@@ -1,2 +1,2 @@
 # TextEditor
-Text Editor with javafx using (scene builder)
+Text Editor with javafx using (scene builder) incomplete.
