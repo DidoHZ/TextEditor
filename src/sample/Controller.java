@@ -23,7 +23,8 @@ public class Controller extends Functions implements Initializable {
         //reset
         if(filetype.equals("New File")){
             if(edited)
-                UnSavedMessage(false);
+                if(UnSavedMessage(false))
+                    return;
             SetNewFile();
             return;
         }

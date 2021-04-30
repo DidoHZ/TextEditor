@@ -49,7 +49,7 @@ public class Functions {
     public void saveas() throws IOException {
         Window stage = BPane.getScene().getWindow();
         filec.setTitle("Save File");
-        filec.setInitialFileName("*");
+        filec.setInitialFileName("*.txt");
         filec.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Documents","*.txt"),new FileChooser.ExtensionFilter("All Files","*.*"));
 
         if((file= filec.showSaveDialog(stage)) != null ) {
@@ -91,7 +91,7 @@ public class Functions {
     }
 
     //message for unsaved files
-    public void UnSavedMessage(Boolean Message) {
+    public Boolean UnSavedMessage(Boolean Message) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Text Editor");
         if(FilePath!=null)
@@ -116,6 +116,7 @@ public class Functions {
                 e.printStackTrace();
             }
         });
+        return alert.getResult().getText().equals("Cancel");
     }
 
     //Word Wrapper
