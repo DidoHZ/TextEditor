@@ -17,18 +17,18 @@
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#FileBar" text="New File    Ctrl+N" />
                         <MenuItem mnemonicParsing="false" onAction="#FileBar" text="Open         Ctrl+O" />
-                        <MenuItem mnemonicParsing="false" onAction="#FileBar" text="Save          Ctrl+S" />
+                        <MenuItem mnemonicParsing="false" onAction="#FileBar" text="Save           Ctrl+S" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#FileBar" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Undo      Ctrl+Z" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Undo       Ctrl+Z" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Cut      Ctrl+X" />
-                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Copy      Ctrl+C" />
-                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Paste      Ctrl+V" />
+                        <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Cut          Ctrl+X" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Copy       Ctrl+C" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Paste       Ctrl+V" />
                   <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Delete" />
                     </items>
                 </Menu>
