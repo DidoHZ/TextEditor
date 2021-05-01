@@ -9,15 +9,24 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+    static final String AppName = "TextEditor";
+    static final String NewFileName = "New File";
+    static final String NewAppName = NewFileName + " - " + AppName;
 
+    private static Stage MainStage;
+
+    static Stage GetStage(){
+        return MainStage;
+    }
     @Override
     public void start(Stage primaryStage) throws Exception{
+        MainStage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Stupid TextEditor");
+        MainStage.setTitle(NewAppName);
         Scene scene = new Scene(root, 600, 500);
-        primaryStage.setScene(scene);
-        primaryStage.getIcons().add(new Image("\\images\\images.png"));
-        primaryStage.show();
+        MainStage.setScene(scene);
+        MainStage.getIcons().add(new Image("\\images\\images.png"));
+        MainStage.show();
     }
     public static void main(String[] args) {
         launch(args);

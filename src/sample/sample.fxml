@@ -15,16 +15,21 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#FileBar" text="New File" />
-                        <MenuItem mnemonicParsing="false" onAction="#FileBar" text="Open" />
-                        <MenuItem mnemonicParsing="false" onAction="#FileBar" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#FileBar" text="New File    Ctrl+N" />
+                        <MenuItem mnemonicParsing="false" onAction="#FileBar" text="Open         Ctrl+O" />
+                        <MenuItem mnemonicParsing="false" onAction="#FileBar" text="Save          Ctrl+S" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#FileBar" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Undo      Ctrl+Z" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Cut      Ctrl+X" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Copy      Ctrl+C" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Paste      Ctrl+V" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Delete" />
                     </items>
                 </Menu>
             <Menu mnemonicParsing="false" text="Format">
@@ -33,18 +38,13 @@
                 <MenuItem mnemonicParsing="false" onAction="#Font" text="Font" />
               </items>
             </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#FileBar" text="About" />
-                    </items>
-                </Menu>
             </menus>
         </MenuBar>
     </top>
-    <center>
+   <center>
         <TextArea fx:id="Text_fld" onKeyPressed="#verify" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <font>
                 <Font name="Arial" size="18.0" />
             </font></TextArea>
-    </center>
+   </center>
 </BorderPane>
