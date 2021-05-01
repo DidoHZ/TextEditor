@@ -1,44 +1,66 @@
 package sample;
 
-import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Font;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
-import javafx.stage.Window;
-import org.controlsfx.dialog.FontSelectorDialog;
-
+import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Functions {
-    public TextArea Text_fld;
-    public BorderPane BPane;
-    public File file ;
-    public FileChooser filec = new FileChooser();
-    public String FilePath=null, FileName=null;
-    public Boolean edited=false;
+    @FXML
+    protected TextArea Text_fld;
+    protected Stage MainStage;
+    private File file ;
+    private final FileChooser filec = new FileChooser();
+    protected String FilePath=null, FileName=null;
+    protected Boolean edited=false;
+
+    //Set App Title
+    private void SetAppTitle(){
+        MainStage.setTitle((file != null?file.getName():Main.NewFileName)+" - "+Main.AppName);
+    }
+
+    //New File Action
+    public void NewFileFileBar(){
+        if(edited){ if(!UnSavedAlert(false)) SetNewFile();}
+        else SetNewFile();
+    }
+
+    //Open File Action
+    public void OpenFileFileBar() throws IOException {
+        //open new file while file saved
+        if(!edited) {
+            open(); return;
+        }
+        // open new file while file not saved
+        UnSavedAlert(true);
+    }
+
+    //Save File Action
+    public void SaveFileFileBar() throws IOException {
+        //save opened file
+        if(FileName!=null) {
+            save(); return;
+        }
+        //save new file
+        saveas();
+    }
 
     //Open file
     public void open() throws FileNotFoundException {
-        Window stage = BPane.getScene().getWindow();
         filec.setTitle("Open File");
         filec.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text file","*.txt"));
 
-        if((file = filec.showOpenDialog(stage)) != null ) {
+        if((file = filec.showOpenDialog(MainStage.getScene().getWindow()))!=null) {
             filec.setInitialDirectory(file.getParentFile());
             SetNewFile();
             FileName = file.getName();
             FilePath = file.getPath();
+            SetAppTitle();
             Scanner scanner = new Scanner(file);
             while (scanner.hasNext())
                 Text_fld.appendText(scanner.nextLine() + "\n");
@@ -47,15 +69,15 @@ public class Functions {
 
     //Save file as
     public void saveas() throws IOException {
-        Window stage = BPane.getScene().getWindow();
-        filec.setTitle("Save File");
+        filec.setTitle("Save As");
         filec.setInitialFileName("*.txt");
         filec.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Documents","*.txt"),new FileChooser.ExtensionFilter("All Files","*.*"));
 
-        if((file= filec.showSaveDialog(stage)) != null ) {
+        if((file= filec.showSaveDialog(MainStage)) != null ) {
             filec.setInitialDirectory(file.getParentFile());
             FileName = file.getName();
             FilePath = file.getPath();
+            SetAppTitle();
             FileWriter filew = new FileWriter(file.getPath());
             filew.write(Text_fld.getText());
             filew.close();
@@ -68,6 +90,7 @@ public class Functions {
         FileWriter filew = new FileWriter(FilePath);
         filew.write(Text_fld.getText());
         filew.close();
+        SetAppTitle();
         edited = false;
     }
 
@@ -76,37 +99,27 @@ public class Functions {
         FileName = null;
         FilePath = null;
         edited = false;
+        MainStage.setTitle(Main.NewAppName);
         Text_fld.setText("");
     }
 
-    //Check if filed edited + Save && open listener
-    public void verify(KeyEvent event) throws IOException {
-        System.out.println(event.getCode()+" == "+ KeyCode.S+" && "+ event.isControlDown());
-        if (event.getCode() == KeyCode.S && event.isControlDown()){
-            System.out.println("Ctrl+S");
-            if(FileName!=null && edited){save();}else{saveas();}
-            return;
-        }
-        edited = true;
-    }
-
-    //message for unsaved files
-    public Boolean UnSavedMessage(Boolean Message) {
+    //Alert for unsaved files
+    public Boolean UnSavedAlert(Boolean Message) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Text Editor");
-        if(FilePath!=null)
-            alert.setContentText("Do you want so save changes to\n"+FilePath+"?");
-        else
-            alert.setContentText("Do you want so save changes to New File?");
+        alert.setContentText("Do you want so save changes to "+(FilePath!=null? "\n"+FilePath+"?":"new file?"));
         ButtonType okButton = new ButtonType("Save"),noButton = new ButtonType("Don't Save"),cancelButton = new ButtonType("Cancel");
         alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
         alert.showAndWait().ifPresent(type -> {
-            System.out.println(type.getText());
             try {
                 if (type.getText().equals("Save")) {
                     if(Message){
-                        save();
-                        open();
+                            if(FilePath == null)
+                                saveas();
+                            else{
+                                save();
+                                open();
+                            }
                     }else
                         saveas();
                 } else if (type.getText().equals("Don't Save"))
@@ -117,19 +130,5 @@ public class Functions {
             }
         });
         return alert.getResult().getText().equals("Cancel");
-    }
-
-    //Word Wrapper
-    public void WWrap(ActionEvent ae) {
-        CheckMenuItem wrap = (CheckMenuItem) ae.getSource();
-        Text_fld.setWrapText(wrap.isSelected());
-    }
-
-    //Fond Dialog
-    public void Font() {
-        FontSelectorDialog dialog = new FontSelectorDialog(null);
-        dialog.setTitle("Choose font from list");
-        Optional<Font> selectedfont = dialog.showAndWait();
-        selectedfont.ifPresent(font -> Text_fld.setFont(font));
     }
 }
