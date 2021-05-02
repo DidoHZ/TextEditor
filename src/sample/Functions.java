@@ -12,8 +12,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Functions {
@@ -24,9 +22,6 @@ public class Functions {
     private final FileChooser filec = new FileChooser();
     public String FilePath=null, FileName=null;
     public Boolean edited=false;
-    @FXML
-    public TextField FindTxt;
-    private HashMap<Integer, Integer> found = new HashMap<>();
 
     //Set App Title
     private void SetAppTitle(){
@@ -118,7 +113,14 @@ public class Functions {
         Find.setTitle("Find");
         Find.setResizable(false);
         Find.initOwner(MainStage);
-        Parent root = FXMLLoader.load(getClass().getResource("Find.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Find.fxml"));
+        Parent root = loader.load();
+
+        Find FindController = loader.getController(); //Get Controller of Find
+        FindController.GetData(Text_fld,Find); //Get Data
+
+        //ShowFind Scene in new Stage
         Scene scene = new Scene(root, 350, 100);
         Find.setScene(scene);
         Find.getIcons().add(new Image("\\images\\images.png"));
@@ -146,25 +148,5 @@ public class Functions {
             }
         });
         return alert.getResult().getText().equals("Cancel");
-    }
-
-    public void find(){
-        String Area=Text_fld.getText(),find = FindTxt.getText().toLowerCase();
-        int findex = 0,sindex;
-        boolean equal = true;
-        while(findex < Area.length()){
-            if(Area.charAt(findex)==find.charAt(0)) {
-                sindex = findex;
-                for (int i = 1; i < find.length(); i++) {
-                    if(Area.charAt(sindex+i)==find.charAt(i))
-                        continue;
-                    equal = false;
-                }
-                if(equal) found.put(findex,sindex);
-                equal = true;
-            }
-            findex++;
-        }
-        System.out.println(Collections.singletonList(found));
     }
 }

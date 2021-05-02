@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import org.controlsfx.dialog.FontSelectorDialog;
 import java.io.IOException;
@@ -103,13 +102,5 @@ public class Controller extends Functions implements Initializable {
             Text_fld.deleteText(Text_fld.getSelection());
         if(EditType.getText().contains("Fi"))
             FindEditBar();
-    }
-
-    public void FindAction(MouseEvent me) {
-        Button Findbtn = (Button) me.getSource();
-        if(Findbtn.getText().equals("Find") && !FindTxt.getText().isEmpty())
-            find();
-        if(Findbtn.getText().equals("Cancel"))
-            Find.close();
     }
 }
