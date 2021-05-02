@@ -1,23 +1,32 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Functions {
     @FXML
-    protected TextArea Text_fld;
-    protected Stage MainStage;
+    public TextArea Text_fld;
+    public Stage MainStage,Find;
     private File file ;
     private final FileChooser filec = new FileChooser();
-    protected String FilePath=null, FileName=null;
-    protected Boolean edited=false;
+    public String FilePath=null, FileName=null;
+    public Boolean edited=false;
+    @FXML
+    public TextField FindTxt;
+    private HashMap<Integer, Integer> found = new HashMap<>();
 
     //Set App Title
     private void SetAppTitle(){
@@ -103,6 +112,19 @@ public class Functions {
         Text_fld.setText("");
     }
 
+    //Find in text Area
+    public void FindEditBar() throws IOException {
+        Find = new Stage();
+        Find.setTitle("Find");
+        Find.setResizable(false);
+        Find.initOwner(MainStage);
+        Parent root = FXMLLoader.load(getClass().getResource("Find.fxml"));
+        Scene scene = new Scene(root, 350, 100);
+        Find.setScene(scene);
+        Find.getIcons().add(new Image("\\images\\images.png"));
+        Find.show();
+
+    }
     //Alert for unsaved files
     public Boolean UnSavedAlert(Boolean Message) {
         Alert alert = new Alert(Alert.AlertType.NONE);
@@ -114,14 +136,8 @@ public class Functions {
             try {
                 if (type.getText().equals("Save")) {
                     if(Message){
-                            if(FilePath == null)
-                                saveas();
-                            else{
-                                save();
-                                open();
-                            }
-                    }else
-                        saveas();
+                        if(FilePath == null) saveas(); else save(); open();
+                    }else saveas();
                 } else if (type.getText().equals("Don't Save"))
                     if(Message)
                         open();
@@ -130,5 +146,25 @@ public class Functions {
             }
         });
         return alert.getResult().getText().equals("Cancel");
+    }
+
+    public void find(){
+        String Area=Text_fld.getText(),find = FindTxt.getText().toLowerCase();
+        int findex = 0,sindex;
+        boolean equal = true;
+        while(findex < Area.length()){
+            if(Area.charAt(findex)==find.charAt(0)) {
+                sindex = findex;
+                for (int i = 1; i < find.length(); i++) {
+                    if(Area.charAt(sindex+i)==find.charAt(i))
+                        continue;
+                    equal = false;
+                }
+                if(equal) found.put(findex,sindex);
+                equal = true;
+            }
+            findex++;
+        }
+        System.out.println(Collections.singletonList(found));
     }
 }

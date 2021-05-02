@@ -24,12 +24,14 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Undo       Ctrl+Z" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Undo      Ctrl+Z" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Cut          Ctrl+X" />
-                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Copy       Ctrl+C" />
-                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Paste       Ctrl+V" />
+                        <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Cut         Ctrl+X" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Copy      Ctrl+C" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Paste      Ctrl+V" />
                   <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Delete" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#EditBar" text="Find" />
                     </items>
                 </Menu>
             <Menu mnemonicParsing="false" text="Format">
@@ -44,7 +46,7 @@
    <center>
         <TextArea fx:id="Text_fld" onKeyPressed="#verify" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Arial" size="18.0" />
+                <Font name="Arial" size="14.0" />
             </font></TextArea>
    </center>
 </BorderPane>
