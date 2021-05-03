@@ -24,7 +24,7 @@ public class Functions {
     public Boolean edited=false;
 
     //Set App Title
-    private void SetAppTitle(){
+    public void SetAppTitle(){
         MainStage.setTitle((file != null?file.getName():Main.NewFileName)+" - "+Main.AppName);
     }
 

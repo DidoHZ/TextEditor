@@ -19,43 +19,34 @@ public class Controller extends Functions implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
     MainStage = Main.GetStage();
     MainStage.setOnCloseRequest(e -> {
-        if(edited)
-            if(UnSavedAlert(false))
-                e.consume();
+        if(edited) if(UnSavedAlert(false)) e.consume();
     });
     }
 
     public void FileBar(ActionEvent ae) throws IOException {
-        MenuItem mi = (MenuItem) ae.getSource();
-        char filetype = mi.getText().charAt(0);
+        char filetype = ((MenuItem) ae.getSource()).getText().charAt(0);
 
         //reset
         if(filetype == 'N'){
             NewFileFileBar(); return;
         }
-
         //Open New file or create new file
         if(filetype == 'O') {
             OpenFileFileBar(); return;
         }
-
         //Save new file or existing file
         if(filetype == 'S'){
             SaveFileFileBar(); return;
         }
-
         //Exit
         if(filetype == 'C'){
-            if(edited)
-                if(UnSavedAlert(false))
-                    return;
+            if(edited) if(UnSavedAlert(false)) return;
             MainStage.close();
         }
     }
 
     //Check if filed edited + Save && open listener
     public void verify(KeyEvent event) throws IOException {
-        System.out.println("Key Pressed : "+event.getCode()+" Ctrl : "+event.isControlDown());
         //Ctrl+N
         if(event.getCode() == KeyCode.N && event.isControlDown()){
             NewFileFileBar(); return;
@@ -75,15 +66,16 @@ public class Controller extends Functions implements Initializable {
             if(!Arrays.toString(Title).contains("*"))
                 MainStage.setTitle(Title[0]+"* - "+Title[1]);
         }
+        if(FileName==null && Text_fld.getText().isEmpty()) { SetAppTitle(); edited = false; }
     }
 
-    //Word Wrapper
+    //Word Wrap Action
     public void WWrap(ActionEvent ae) {
         CheckMenuItem wrap = (CheckMenuItem) ae.getSource();
         Text_fld.setWrapText(wrap.isSelected());
     }
 
-    //Fond Dialog
+    //Fond Action
     public void Font() {
         FontSelectorDialog dialog = new FontSelectorDialog(null);
         dialog.setTitle("Choose font from list");
@@ -91,6 +83,7 @@ public class Controller extends Functions implements Initializable {
         selectedfont.ifPresent(font -> Text_fld.setFont(font));
     }
 
+    //Edit Bar Action
     public void EditBar(ActionEvent ae) throws IOException {
         MenuItem EditType = (MenuItem) ae.getSource();
         if(EditType.getText().contains("Un"))
