@@ -2,74 +2,75 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class Find implements Initializable {
+public class Find {
     @FXML
-    public TextField FindTxt;
+    private TextField FindTxt;
     private TextArea MyArea;
     private Stage Find;
-    private Boolean direction = true;
+    private String Area,find;
+    private Boolean direction = true,matchcase=false;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
     //Get Text Area Text Field
     public void GetData(TextArea Area, Stage stage){
-        this.MyArea = Area;
-        Find = stage;
+        this.MyArea = Area; Find = stage;
+    }
+
+    //set quel que chose
+    private void SetString(){
+        Area = matchcase?MyArea.getText():MyArea.getText().toLowerCase();
+        find = matchcase?FindTxt.getText():FindTxt.getText().toLowerCase();
     }
 
     //Find Function
-    public int[] find(int selection){
-        return direction?Down(selection):Up(selection);
+    private int[] find(int selection){
+        return direction?Down(selection+1):Up(selection-1);
     }
 
-    //Find Window Listener
+    //Find Button Action
     public void FindAction(MouseEvent me) {
-        Button Findbtn = (Button) me.getSource();
-        if(Findbtn.getText().equals("Find") && !FindTxt.getText().isEmpty()) {
+        if(((Button) me.getSource()).getText().equals("Find") && !FindTxt.getText().isEmpty()) {
+            SetString();
             int[] index = find(MyArea.getSelection().getStart());
             if(index.length>0)
                 MyArea.selectRange(index[0],index[1]);
             else{
                 Alert alert = new Alert(Alert.AlertType.NONE);
                 alert.setTitle("Warning!");
-                alert.setContentText("Canno't Find \""+FindTxt.getText()+"\"");
+                alert.setContentText("Cannot Find \""+FindTxt.getText()+"\"");
                 ButtonType okButton = new ButtonType("Ok");
                 alert.getButtonTypes().setAll(okButton);
-                alert.showAndWait();
+                alert.show();
             }
         }
-        if(Findbtn.getText().equals("Cancel"))
+        if(((Button) me.getSource()).getText().equals("Cancel"))
             Find.close();
     }
 
     //Direction Radio Action
     public void Direction(ActionEvent ae) {
-        RadioButton dir = (RadioButton) ae.getSource();
-        direction = dir.getText().equals("Down");
+        direction = ((RadioButton) ae.getSource()).getText().equals("Down");
+    }
+
+    //Match Case CheckBox Action
+    public void MatchCaseAction(ActionEvent ae) {
+        matchcase = ((CheckBox) ae.getSource()).isSelected();
     }
 
     //Down
-    private int[] Down(int start){
-        String Area = MyArea.getText().toLowerCase(), find = FindTxt.getText().toLowerCase();
-        int findex=start+1,sindex;
+    private int[] Down(int findex){
         boolean equal = true;
-        while(findex < Area.length()){
+
+        while(findex < Area.length()){ //different
             if(Area.charAt(findex)==find.charAt(0)) {
-                sindex = findex;
+                int sindex = findex;
                 for (int i = 0; i < find.length(); i++) {
                     if(Area.charAt(sindex++)==find.charAt(i))
                         continue;
-                    equal = false;
+                    equal = false; break;
                 }
                 if(equal) return new int[]{ findex , sindex};
                 equal = true;
@@ -80,18 +81,16 @@ public class Find implements Initializable {
     }
 
     //Up
-    private int[] Up(int start){
-        String Area = MyArea.getText().toLowerCase(), find = FindTxt.getText().toLowerCase();
-        int findex = start-1,sindex;
+    private int[] Up(int findex){
         boolean equal = true;
 
-        while(findex > -1){
+        while(findex > -1){ //different
             if(Area.charAt(findex)==find.charAt(0)) {
-                sindex = findex;
+                int sindex = findex;
                 for (int i = 0; i < find.length(); i++) {
                     if(Area.charAt(sindex++)==find.charAt(i))
                         continue;
-                    equal = false;
+                    equal = false; break;
                 }
                 if(equal) return new int[]{ findex , sindex};
                 equal = true;
@@ -100,5 +99,4 @@ public class Find implements Initializable {
         }
         return new int[]{};
     }
-
 }

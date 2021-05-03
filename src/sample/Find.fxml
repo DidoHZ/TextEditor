@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
@@ -49,6 +50,15 @@
                      </toggleGroup>
                   </RadioButton>
                   <RadioButton layoutX="59.0" layoutY="17.0" mnemonicParsing="false" onAction="#Direction" selected="true" text="Down" toggleGroup="$Direction" />
+               </children>
+            </Pane>
+            <Pane GridPane.rowIndex="1">
+               <children>
+                  <CheckBox mnemonicParsing="false" onAction="#MatchCaseAction" text="Match Case">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </CheckBox>
                </children>
             </Pane>
          </children>
