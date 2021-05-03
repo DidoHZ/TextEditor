@@ -46,6 +46,9 @@ public class Controller extends Functions implements Initializable {
 
         //Exit
         if(filetype == 'C'){
+            if(edited)
+                if(UnSavedAlert(false))
+                    return;
             MainStage.close();
         }
     }
