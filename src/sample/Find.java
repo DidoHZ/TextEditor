@@ -21,7 +21,7 @@ public class Find {
 
     //set quel que chose
     private void SetString(){
-        Area = matchcase?MyArea.getText():MyArea.getText().toLowerCase();
+        Area = matchcase?MyArea.getText()+" ":MyArea.getText().toLowerCase()+" ";
         find = matchcase?FindTxt.getText():FindTxt.getText().toLowerCase();
     }
 
@@ -47,7 +47,7 @@ public class Find {
             }
         }
         if(((Button) me.getSource()).getText().equals("Cancel"))
-            Find.close();
+            Find.hide();
     }
 
     //Direction Radio Action

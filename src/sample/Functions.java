@@ -17,11 +17,11 @@ import java.util.Scanner;
 public class Functions {
     @FXML
     public TextArea Text_fld;
-    public Stage MainStage,Find;
+    public Stage MainStage,Find = new Stage();
     private File file ;
     private final FileChooser filec = new FileChooser();
     public String FilePath=null, FileName=null;
-    public Boolean edited=false;
+    public Boolean edited=false, FirstShow=true;
 
     //Set App Title
     public void SetAppTitle(){
@@ -109,23 +109,26 @@ public class Functions {
 
     //Find in text Area
     public void FindEditBar() throws IOException {
-        Find = new Stage();
-        Find.setTitle("Find");
-        Find.setResizable(false);
-        Find.initOwner(MainStage);
+        if(!Find.isShowing() && !Text_fld.getText().isEmpty() && !FirstShow){
+            Find.show(); return;}
+        if(!Find.isShowing() && !Text_fld.getText().isEmpty() && FirstShow) {
+            Find.setTitle("Find");
+            Find.setResizable(false);
+            Find.initOwner(MainStage);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Find.fxml"));
-        Parent root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Find.fxml"));
+            Parent root = loader.load();
 
-        Find FindController = loader.getController(); //Get Controller of Find
-        FindController.GetData(Text_fld,Find); //Get Data
+            Find FindController = loader.getController(); //Get Controller of Find
+            FindController.GetData(Text_fld, Find); //Get Data
+            FirstShow = false;
 
-        //ShowFind Scene in new Stage
-        Scene scene = new Scene(root, 350, 100);
-        Find.setScene(scene);
-        Find.getIcons().add(new Image("\\images\\images.png"));
-        Find.show();
-
+            //ShowFind Scene in new Stage
+            Scene scene = new Scene(root, 350, 100);
+            Find.setScene(scene);
+            Find.getIcons().add(new Image("\\images\\images.png"));
+            Find.show();
+        }
     }
     //Alert for unsaved files
     public Boolean UnSavedAlert(Boolean Message) {

@@ -57,7 +57,7 @@ public class Controller extends Functions implements Initializable {
         }
         //Ctrl+S
         if (event.getCode() == KeyCode.S && event.isControlDown()){
-            if(FileName!=null && edited){save();}else{saveas();} return;
+            if(FileName!=null && edited) save(); else if(FileName==null && edited) saveas(); return;
         }
         //Text area edited
         if(!event.isControlDown()) {
